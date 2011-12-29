@@ -102,33 +102,33 @@ can reuse them across multiple different files, do the following:
 
 In a file named e.g. myforms.js:
 
-  var forms = require('forms'),
-    fields = forms.fields,
-    validators = forms.validators;
+    var forms = require('forms'),
+      fields = forms.fields,
+      validators = forms.validators;
 ····
-  exports.User = {
-    username: fields.string({required: true}),
-    email: fields.email({required: true}),
-    password: fields.password({required: true}),
-    confirm: fields.password({
-      required: true,
-      validators: [validators.matchField('password')],
-    })
-  };
+    exports.User = {
+      username: fields.string({required: true}),
+      email: fields.email({required: true}),
+      password: fields.password({required: true}),
+      confirm: fields.password({
+        required: true,
+        validators: [validators.matchField('password')],
+      })
+    };
 
 In you application js file do then:
 
-  var forms = require('forms'),
-      myforms = require('./myforms.js');
+    var forms = require('forms'),
+         myforms = require('./myforms.js');
 
-  var handle = function(req,res) {
-    var f = forms.create(myforms.User);
-    f.handle(req, {
+    var handle = function(req,res) {
+      var f = forms.create(myforms.User);
+      f.handle(req, {
+  
+        // Use the example from above
 
-      // Use the example from above
-
-    });
-  }
+      });
+    }
 
 (the above is written using the forms library in conjunction with
 express)
