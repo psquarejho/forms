@@ -95,6 +95,50 @@ An example server using the form above can be run by doing:
 
     node example/simple.js
 
+### Caution
+
+If you want to put your form definitions in a separate module, so you
+can reuse them across multiple different files, do the following:
+
+In a file named e.g. myforms.js:
+
+  var forms = require('forms'),
+    fields = forms.fields,
+    validators = forms.validators;
+····
+  exports.User = {
+    username: fields.string({required: true}),
+    email: fields.email({required: true}),
+    password: fields.password({required: true}),
+    confirm: fields.password({
+      required: true,
+      validators: [validators.matchField('password')],
+    })
+  };
+
+In you application js file do then:
+
+  var forms = require('forms'),
+      myforms = require('./myforms.js');
+
+  var handle = function(req,res) {
+    var f = forms.create(myforms.User);
+    f.handle(req, {
+
+      // Use the example from above
+
+    });
+  }
+
+(the above is written using the forms library in conjunction with
+express)
+
+If you use forms.create in the module file directly, the form data
+will persist across different requests, even from different users,
+potentially exposing sensitive data (and making it very confusing
+for the user!)
+
+
 ## Available types
 
 A list of the fields, widgets, validators and renderers available as part of
