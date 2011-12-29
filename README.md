@@ -105,7 +105,7 @@ In a file named e.g. myforms.js:
     var forms = require('forms'),
       fields = forms.fields,
       validators = forms.validators;
-····
+    // The field definition for the user form
     exports.User = {
       username: fields.string({required: true}),
       email: fields.email({required: true}),
